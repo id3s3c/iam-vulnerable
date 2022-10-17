@@ -15,7 +15,9 @@ resource "aws_iam_policy" "privesc-codeBuildCreateProjectPassRole-policy" {
           "codebuild:StartBuild",
           "codebuild:StartBuildBatch",          
           "iam:PassRole",
-          "iam:ListRoles"          
+          "iam:ListRoles",
+          "logs:CreateLogStream",
+          "logs:CreateLogGroup"
         ]
         Resource = "*"
       },
@@ -36,6 +38,14 @@ resource "aws_iam_role" "privesc-codeBuildCreateProjectPassRole-role" {
         Sid    = ""
         Principal = {
           AWS = var.aws_assume_role_arn
+        }
+      },
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = "Codebuild"
+        Principal = {
+          Service = "codebuild.amazonaws.com"
         }
       },
     ]

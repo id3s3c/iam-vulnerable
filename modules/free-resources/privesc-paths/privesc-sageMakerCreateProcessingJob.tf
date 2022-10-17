@@ -35,6 +35,14 @@ resource "aws_iam_role" "privesc-sageMakerCreateProcessingJobPassRole-role" {
           AWS = var.aws_assume_role_arn
         }
       },
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = "Sagemaker service"
+        Principal = {
+          Service = "sagemaker.amazonaws.com"
+        }
+      }
     ]
   })
 }
